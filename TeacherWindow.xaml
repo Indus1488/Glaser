@@ -1,0 +1,144 @@
+<Window x:Class="GradeApp.TeacherWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Преподаватель" Height="650" Width="1000"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="Преподаватель: Иванов И.И." VerticalAlignment="Center"/>
+            <Button Content="Выход" HorizontalAlignment="Right" Width="80" Height="26"
+                    Click="Logout_Click"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Header="Мои дисциплины">
+                <ListBox x:Name="DisciplineList"
+                         DisplayMemberPath="Name"
+                         SelectionChanged="DisciplineList_SelectionChanged"/>
+            </GroupBox>
+
+            <TabControl Grid.Column="2">
+
+                <TabItem Header="Выставление оценок">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Группа:"/>
+                                <ComboBox x:Name="GroupCombo"
+                                          DisplayMemberPath="Name"
+                                          SelectionChanged="GroupCombo_SelectionChanged"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Студент:"/>
+                                <ComboBox x:Name="StudentCombo"
+                                          DisplayMemberPath="FullName"
+                                          SelectionChanged="StudentCombo_SelectionChanged"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="Оценка:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <TextBox x:Name="GradeBox" Width="60" Padding="4" Margin="0,0,10,0"/>
+                            <Button Content="Сохранить" Width="100" Height="26"
+                                    Click="SaveGrade_Click"/>
+                        </StackPanel>
+
+                        <DataGrid Grid.Row="2" x:Name="GradesGrid"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  IsReadOnly="True"
+                                  HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Дата"
+                                                    Binding="{Binding Date, StringFormat=dd.MM.yyyy}"
+                                                    Width="120"/>
+                                <DataGridTextColumn Header="Тип работы" Binding="{Binding Type}" Width="*"/>
+                                <DataGridTextColumn Header="Оценка" Binding="{Binding Value}" Width="80"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Оценки студента">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="Студент:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <ComboBox x:Name="StudentViewCombo" Width="220"
+                                      DisplayMemberPath="FullName"
+                                      SelectionChanged="StudentViewCombo_SelectionChanged"/>
+                        </StackPanel>
+
+                        <DataGrid Grid.Row="1" x:Name="StudentAllGradesGrid"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Дисциплина" Binding="{Binding Disc}" Width="*"/>
+                                <DataGridTextColumn Header="Дата"
+                                                    Binding="{Binding Date, StringFormat=dd.MM.yyyy}"
+                                                    Width="120"/>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding Type}" Width="150"/>
+                                <DataGridTextColumn Header="Оценка" Binding="{Binding Value}" Width="80"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Оценки группы">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="Группа:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <ComboBox x:Name="GroupViewCombo" Width="220"
+                                      DisplayMemberPath="Name"
+                                      SelectionChanged="GroupViewCombo_SelectionChanged"/>
+                        </StackPanel>
+
+                        <DataGrid Grid.Row="1" x:Name="GroupGradesGrid"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Студент" Binding="{Binding Student}" Width="*"/>
+                                <DataGridTextColumn Header="Дисциплина" Binding="{Binding Disc}" Width="*"/>
+                                <DataGridTextColumn Header="Дата"
+                                                    Binding="{Binding Date, StringFormat=dd.MM.yyyy}"
+                                                    Width="120"/>
+                                <DataGridTextColumn Header="Оценка" Binding="{Binding Value}" Width="80"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>
